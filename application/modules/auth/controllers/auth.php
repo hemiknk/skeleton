@@ -24,7 +24,10 @@ return
             $auth = new AuthProvider($provider);
             $auth->setResponse($this);
             $auth->setIdentity($this->user());
-            $auth->authProcess();
+            $link = $auth->authProcess();
+            return function() use ($link){
+                echo "<p><a href={$link}>Jethub</a></p>";
+            };
         } catch (Exception $e) {
             Messages::addError($e->getMessage());
         }

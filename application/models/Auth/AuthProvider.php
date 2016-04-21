@@ -163,13 +163,39 @@ class AuthProvider implements AuthInterface
      */
     public function authProcess()
     {
-        $this->authAdapter = $this->getAuthAdapter();
-        $profile = $this->getProfile();
+
+
+        $opts = $this->getOptions();
+
+        $url = "http://jethub.nixsolutions.com:8080/hub/api/rest/oauth2/auth";
+
+        $client_id = $opts['providers']['Jethub']['keys']['id'];
+        $client_secret = $opts['providers']['Jethub']['keys']['secret'];
+        $redirect_uri = $opts['base_url'];
+
+
+        $params = array(
+            'redirect_uri'  => $redirect_uri,
+            'response_type' => $opts['providers']['Jethub']['response_type'],
+            'client_id'     => $client_id,
+            'scope'         => $opts['providers']['Jethub']['scope'],
+            /*'request_credentials' => 'skip',*/
+        );
+
+        $link =  $url . '?' . urldecode(http_build_query($params));
+
+        return $link;
+
+
+
+
+/*        $this->authAdapter = $this->getAuthAdapter();
+        $profile = $this->getProfile();*/
 
         /**
          * @var Auth\Table $authTable
          */
-        $authTable = Auth\Table::getInstance();
+/*        $authTable = Auth\Table::getInstance();
         $auth = $authTable->getAuthRow(strtolower($this->providerName), $profile->identifier);
 
 
@@ -188,7 +214,7 @@ class AuthProvider implements AuthInterface
         } else {
             Messages::addError(sprintf('First you need to be linked to %s', $this->providerName));
             $this->response->redirectTo('users', 'signin');
-        }
+        }*/
     }
 
     /**
