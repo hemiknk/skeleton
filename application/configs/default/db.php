@@ -9,7 +9,7 @@ return array(
     "connect" => array(
         "type" => "mysql",
         "host" => "localhost",
-        "name" => "bluz",
+        "name" => "bluz-skeleton",
         "user" => "root",
         "pass" => "",
         "options" => array(
